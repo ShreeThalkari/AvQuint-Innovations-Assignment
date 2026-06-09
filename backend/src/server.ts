@@ -3,7 +3,7 @@ dotenv.config()
 
 import express from "express";
 import cors from "cors";
-import { authMiddleware } from "../src/middleware/auth.middleware.js"
+import { authMiddleware } from "./middleware/auth.middleware.js"
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import taskRoutes from "./routes/task.routes.js"
