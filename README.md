@@ -124,8 +124,6 @@ Frontend scripts:
 ```bash
 npm run dev      # Start the Vite development server
 npm run build    # Build the frontend for production
-npm run preview  # Preview the production build locally
-npm run lint     # Run ESLint
 ```
 
 ## Notes
@@ -133,3 +131,4 @@ npm run lint     # Run ESLint
 - Make sure MongoDB is running before starting the backend.
 - `BASE_URL` in `backend/.env` should match the frontend origin for CORS.
 - `VITE_API_URL` should point to the backend API base URL and include `/api`.
+- If you can you can directly go to the deployed website: https://avquint-innovations-assignment-1.onrender.com
