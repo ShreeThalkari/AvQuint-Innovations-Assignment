@@ -44,11 +44,6 @@ export const addTask = async (req: Request, res: Response) => {
         }
         const { title, description } = req.body;
 
-        const existingTitle = await Task.findOne({ title, userId });
-        if (existingTitle) {
-            return res.status(400).json({ message: "Title already exists" });
-        }
-
         const task = await Task.create({
             title,
             description,
