@@ -3,9 +3,16 @@ import type { Request, Response } from "express";
 
 export const getTasks = async (req: Request, res: Response) => {
     try {
+        const userId = req.user;
+
+        if (!userId) {
+            return res.status(401).json({
+                message: "Unauthorized",
+            });
+        }
         const { search, status, page = 1, limit = 6 } = req.query;
 
-        const filter: Record<string, unknown> = { userId: req.user };
+        const filter: Record<string, unknown> = { userId };
         if (status && status !== "all") filter.status = status;
         if (search) filter.title = { $regex: search, $options: "i" };
 
@@ -28,9 +35,16 @@ export const getTasks = async (req: Request, res: Response) => {
 
 export const addTask = async (req: Request, res: Response) => {
     try {
+        const userId = req.user;
+
+        if (!userId) {
+            return res.status(401).json({
+                message: "Unauthorized",
+            });
+        }
         const { title, description } = req.body;
 
-        const existingTitle = await Task.findOne({ title, userId: req.user });
+        const existingTitle = await Task.findOne({ title, userId });
         if (existingTitle) {
             return res.status(400).json({ message: "Title already exists" });
         }
@@ -50,9 +64,16 @@ export const addTask = async (req: Request, res: Response) => {
 
 export const editTask = async (req: Request, res: Response) => {
     try {
+        const userId = req.user;
+
+        if (!userId) {
+            return res.status(401).json({
+                message: "Unauthorized",
+            });
+        }
         const { title, description, status } = req.body;
 
-        const task = await Task.findOne({ _id: req.params.id, userId: req.user });
+        const task = await Task.findOne({ _id: req.params.id, userId });
 
         if (!task) return res.status(404).json({ message: "Task not found" });
 
@@ -70,7 +91,14 @@ export const editTask = async (req: Request, res: Response) => {
 
 export const deleteTask = async (req: Request, res: Response) => {
     try {
-        const task = await Task.findOne({ _id: req.params.id, userId: req.user });
+        const userId = req.user;
+
+        if (!userId) {
+            return res.status(401).json({
+                message: "Unauthorized",
+            });
+        }
+        const task = await Task.findOne({ _id: req.params.id, userId });
 
         if (!task) return res.status(404).json({ message: "Task not found" });
 
